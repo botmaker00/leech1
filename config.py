@@ -5,7 +5,7 @@ TELEGRAM_HASH = "710a123b921c635952fe5347a09ecccb"
 USER_SESSION_STRING = "BQF8ZbQAScIsFkkylVQ3gMjTBsiuc6DwGVWWIQ3FkML_2o7-goczpbR1S655sy5-FqRHyrV3pM6STXFrmriVpHRIekVDHedYsEjWjJ9wT5zNwDBRrsdGozW33M_-xnPD4_DZqWunu1JELkkh4PPIgXNPw8Ul-Abr0wuCMFA5MSF0YbCtJNEPNHyKRuCGTccUkH8VNv3c_iOBFzdQhbtzmvWc69Ldp2Q6_PTD1HA95rlgg7TabjyNss4bgQ-j5XQ27jH3rZoCjmRCGdbk7E9YUVBj5WZ5iTfz9wwrfpWvy3ZR7LPMmsJngOhRADfeifmGu9NktiuBBW1pclCoWDNntzYUCIjLIwAAAAHKkJMCAA"
 UPSTREAM_REPO = "https://github.com/botmaker00/leech1"
 UPSTREAM_BRANCH = "wzv3"
-DATABASE_URL = ""
+DATABASE_URL = "mongodb+srv://darkleech:darkleech@cluster0.6comn6t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 # OPTIONAL CONFIG
 DEFAULT_LANG = "en"

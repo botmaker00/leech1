@@ -193,9 +193,9 @@ def speed_string_to_bytes(size_text: str):
 def get_progress_bar_string(pct):
     pct = float(str(pct).strip("%"))
     p = min(max(pct, 0), 100)
-    cFull = int(p // 8)
+    cFull = int(p // 10)
     p_str = "▰" * cFull
-    p_str += "▱" * (12 - cFull)
+    p_str += "▱" * (10 - cFull)
     return f"[{p_str}]"
 
 
@@ -248,7 +248,7 @@ async def get_readable_message(sid, is_user, page_no=1, status="All", page_step=
             else:
                 subsize = ""
                 count = ""
-            msg += f"\n┠ <b>🔄 Pʀᴏᴄᴇssᴇᴅ</b> → <blockquote><i>{task.processed_bytes()}{subsize} of {task.size()}</i><blockquote>"
+            msg += f"\n┠ <b>🔄 Pʀᴏᴄᴇssᴇᴅ</b> → <i>{task.processed_bytes()}{subsize} of {task.size()}</i>"
             if count:
                 msg += f"\n┠ <b>🔢 Cᴏᴜɴᴛ:</b> → <b>{count}</b>"
             msg += f"\n┠ <b>📶 Sᴛᴀᴛᴜs</b> → <b>{tstatus}</b>"

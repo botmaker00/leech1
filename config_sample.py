@@ -1,16 +1,18 @@
-# REQUIRED CONFIG
-BOT_TOKEN = ""
-OWNER_ID = 0
-TELEGRAM_API = 0
-TELEGRAM_HASH = ""
-DATABASE_URL = ""
+BOT_TOKEN = "8265759283:AAFArPhuS4QIpkP-EUf-dTBN8lmLpT1plqw"
+OWNER_ID = 5741918628
+TELEGRAM_API = 24929716
+TELEGRAM_HASH = "710a123b921c635952fe5347a09ecccb"
+USER_SESSION_STRING = "BQF8ZbQAScIsFkkylVQ3gMjTBsiuc6DwGVWWIQ3FkML_2o7-goczpbR1S655sy5-FqRHyrV3pM6STXFrmriVpHRIekVDHedYsEjWjJ9wT5zNwDBRrsdGozW33M_-xnPD4_DZqWunu1JELkkh4PPIgXNPw8Ul-Abr0wuCMFA5MSF0YbCtJNEPNHyKRuCGTccUkH8VNv3c_iOBFzdQhbtzmvWc69Ldp2Q6_PTD1HA95rlgg7TabjyNss4bgQ-j5XQ27jH3rZoCjmRCGdbk7E9YUVBj5WZ5iTfz9wwrfpWvy3ZR7LPMmsJngOhRADfeifmGu9NktiuBBW1pclCoWDNntzYUCIjLIwAAAAHKkJMCAA"
+UPSTREAM_REPO = "https://github.com/botmaker00/leech1"
+UPSTREAM_BRANCH = "wzv3"
+DATABASE_URL = "mongodb+srv://darkleech:darkleech@cluster0.6comn6t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 # OPTIONAL CONFIG
 DEFAULT_LANG = "en"
 TG_PROXY = (
     {}
 )  # {"scheme": ”socks5”, "hostname": ””, "port": 1234, "username": ”user”, "password": ”pass”}
-USER_SESSION_STRING = ""
+
 CMD_SUFFIX = ""
 AUTHORIZED_CHATS = ""
 SUDO_USERS = ""
@@ -43,8 +45,8 @@ DISABLE_SEED = False
 DISABLE_FF_MODE = False
 
 # Telegraph
-AUTHOR_NAME = "WZML-X"
-AUTHOR_URL = "https://t.me/WZML_X"
+AUTHOR_NAME = "Animeworld"
+AUTHOR_URL = "https://t.me/Animeworld_zone"
 
 # Task Limits
 DIRECT_LIMIT = 0
@@ -150,8 +152,7 @@ USENET_SERVERS = [
 ]
 
 # Update
-UPSTREAM_REPO = ""
-UPSTREAM_BRANCH = "master"
+
 UPDATE_PKGS = True
 
 # Leech

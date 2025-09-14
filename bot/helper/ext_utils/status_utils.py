@@ -248,7 +248,7 @@ async def get_readable_message(sid, is_user, page_no=1, status="All", page_step=
             else:
                 subsize = ""
                 count = ""
-            msg += f"\n┠ <b>🔄 Pʀᴏᴄᴇssᴇᴅ</b> → <i>{task.processed_bytes()}{subsize} of {task.size()}</i>"
+            msg += f"\n┠ <b>🔄 Pʀᴏᴄᴇssᴇᴅ</b> → <blockquote><i>{task.processed_bytes()}{subsize} of {task.size()}</i><blockquote>"
             if count:
                 msg += f"\n┠ <b>🔢 Cᴏᴜɴᴛ:</b> → <b>{count}</b>"
             msg += f"\n┠ <b>📶 Sᴛᴀᴛᴜs</b> → <b>{tstatus}</b>"

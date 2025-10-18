@@ -127,6 +127,46 @@ class TelegramDownloadHelper:
             return
         if download is not None:
             await self._on_download_complete()
+            if self._listener.is_leech and "-ft" in self._listener.message.text and self._listener.message.video:
+                from ..... import user_data
+                user_dict = user_data.get(self._listener.message.from_user.id, {})
+                mode = user_dict.get("FF_MEDIA_MODE")
+                if mode:
+                    from ...ff_utils import convert_video, trim_video, add_watermark
+                    from .....core.config_manager import Config
+
+                    func_map = {
+                        "video_encode": convert_video,
+                        "video_convert": convert_video,
+                        "video_trim": trim_video,
+                        "video_watermark": add_watermark,
+                    }
+                    func = func_map.get(mode)
+                    if func:
+                        new_path = f"{self._listener.dir}/{mode}.mp4"
+                        args = self._listener.message.text.split()
+
+                        if mode == "video_trim":
+                            if len(args) < 4:
+                                await self._listener.on_download_error("Usage: /leech -ft <start_time> <end_time>")
+                                return
+                            success, error = await func(f"{self._listener.dir}/{self._listener.name}", new_path, args[2], args[3])
+                        elif mode == "video_watermark":
+                            text = " ".join(args[2:]) if len(args) > 2 else Config.WATERMARK_TEXT
+                            success, error = await func(f"{self._listener.dir}/{self._listener.name}", new_path, text,
+                                                        position=Config.WATERMARK_POSITION,
+                                                        font_size=Config.WATERMARK_FONT_SIZE,
+                                                        opacity=Config.WATERMARK_OPACITY)
+                        else:
+                            success, error = await func(f"{self._listener.dir}/{self._listener.name}", new_path,
+                                                        preset=Config.VIDEO_ENCODE_PRESET,
+                                                        crf=Config.VIDEO_CRF)
+
+                        if success:
+                            self._listener.name = f"{mode}.mp4"
+                        else:
+                            await self._listener.on_download_error(f"Error in {mode}: {error}")
+                            return
         elif not self._listener.is_cancelled:
             await self._on_download_error("Internal error occurred")
         return

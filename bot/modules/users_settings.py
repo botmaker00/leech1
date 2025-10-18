@@ -613,24 +613,91 @@ async def get_user_settings(from_user, stype="main"):
 """
 
     elif stype == "ffset":
-        buttons.data_button("Video Encode", f"userset {user_id} ff_toggle video_encode")
-        buttons.data_button("Video Convert", f"userset {user_id} ff_toggle video_convert")
-        buttons.data_button("Video Trim", f"userset {user_id} ff_toggle video_trim")
-        buttons.data_button("Video Watermark", f"userset {user_id} ff_toggle video_watermark")
-        buttons.data_button("Video Merge", f"userset {user_id} ff_toggle video_merge")
-        buttons.data_button("Video Hardsub", f"userset {user_id} ff_toggle video_hardsub")
-        buttons.data_button("Stream Extract", f"userset {user_id} ff_toggle stream_extract")
+        buttons.data_button(
+            "FFmpeg Cmds", f"userset {user_id} menu FFMPEG_CMDS", "header"
+        )
+        if user_dict.get("FFMPEG_CMDS", False):
+            ffc = user_dict["FFMPEG_CMDS"]
+        elif "FFMPEG_CMDS" not in user_dict and Config.FFMPEG_CMDS:
+            ffc = Config.FFMPEG_CMDS
+        else:
+            ffc = "<b>Not Exists</b>"
 
-        enabled_feature = user_dict.get("FF_MEDIA_MODE", "None")
+        if isinstance(ffc, dict):
+            ffc = "\n" + "\n".join(
+                [
+                    f"{no}. <b>{key}</b>: <code>{escape(str(value[0]))}</code>"
+                    for no, (key, value) in enumerate(ffc.items(), start=1)
+                ]
+            )
+
+        buttons.data_button("Metadata", f"userset {user_id} menu METADATA")
+        metadata_setting = user_dict.get("METADATA")
+        display_meta_val = "<b>Not Set</b>"
+        if isinstance(metadata_setting, dict) and metadata_setting:
+            display_meta_val = ", ".join(
+                f"{k}={escape(str(v))}" for k, v in metadata_setting.items()
+            )
+            display_meta_val = f"<code>{display_meta_val}</code>"
+        elif isinstance(metadata_setting, str) and metadata_setting:  # Legacy
+            display_meta_val = (
+                f"<code>{escape(metadata_setting)}</code> [<i>Legacy, needs re-set</i>]"
+            )
+
+        buttons.data_button("Audio Metadata", f"userset {user_id} menu AUDIO_METADATA")
+        audio_meta_setting = user_dict.get("AUDIO_METADATA")
+        display_audio_meta = "<b>Not Set</b>"
+        if isinstance(audio_meta_setting, dict) and audio_meta_setting:
+            display_audio_meta = ", ".join(
+                f"{k}={escape(str(v))}" for k, v in audio_meta_setting.items()
+            )
+            display_audio_meta = f"<code>{display_audio_meta}</code>"
+
+        buttons.data_button("Video Metadata", f"userset {user_id} menu VIDEO_METADATA")
+        video_meta_setting = user_dict.get("VIDEO_METADATA")
+        display_video_meta = "<b>Not Set</b>"
+        if isinstance(video_meta_setting, dict) and video_meta_setting:
+            display_video_meta = ", ".join(
+                f"{k}={escape(str(v))}" for k, v in video_meta_setting.items()
+            )
+            display_video_meta = f"<code>{display_video_meta}</code>"
+
+        buttons.data_button(
+            "Subtitle Metadata", f"userset {user_id} menu SUBTITLE_METADATA"
+        )
+        subtitle_meta_setting = user_dict.get("SUBTITLE_METADATA")
+        display_subtitle_meta = "<b>Not Set</b>"
+        if isinstance(subtitle_meta_setting, dict) and subtitle_meta_setting:
+            display_subtitle_meta = ", ".join(
+                f"{k}={escape(str(v))}" for k, v in subtitle_meta_setting.items()
+            )
+            display_subtitle_meta = f"<code>{display_subtitle_meta}</code>"
 
         buttons.data_button("Back", f"userset {user_id} back", "footer")
         buttons.data_button("Close", f"userset {user_id} close", "footer")
+
+        enabled_feature = user_dict.get("FF_MEDIA_MODE", None)
+        ff_tools = {
+            "Video Encode": "video_encode",
+            "Video Convert": "video_convert",
+            "Video Trim": "video_trim",
+            "Video Watermark": "video_watermark",
+        }
+        for name, mode in ff_tools.items():
+            button_text = f"✅ {name}" if enabled_feature == mode else name
+            buttons.data_button(button_text, f"userset {user_id} ff_toggle {mode}")
+
         btns = buttons.build_menu(2)
 
         text = f"""⌬ <b>FF Media Settings :</b>
 ┟ <b>Name</b> → {user_name}
 ┃
-┖ <b>Enabled Feature</b> → <code>{enabled_feature}</code>
+┠ <b>FFmpeg CLI Commands</b> → {ffc}
+┃
+┠ <b>Default Metadata</b> → {display_meta_val}
+┠ <b>Audio Metadata</b> → {display_audio_meta}
+┠ <b>Video Metadata</b> → {display_video_meta}
+┖ <b>Subtitle Metadata</b> → {display_subtitle_meta}
 """
 
     elif stype == "advanced":

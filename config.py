@@ -29,6 +29,14 @@ NAME_SWAP = ""
 FFMPEG_CMDS = {}
 UPLOAD_PATHS = {}
 
+# Video Settings
+VIDEO_ENCODE_PRESET = "medium"
+VIDEO_CRF = 23
+WATERMARK_TEXT = "Bzex"
+WATERMARK_POSITION = "bottom_right"
+WATERMARK_OPACITY = 0.8
+WATERMARK_FONT_SIZE = 24
+
 # Hyper Tg Downloader
 HELPER_TOKENS = ""
 

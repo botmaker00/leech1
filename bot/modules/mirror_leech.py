@@ -128,6 +128,7 @@ class Mirror(TaskListener):
             "-ns": "",
             "-tl": "",
             "-ff": set(),
+            "-ft": False,
         }
 
         arg_parser(input_list[1:], args)
@@ -272,7 +273,18 @@ class Mirror(TaskListener):
 
         path = f"{DOWNLOAD_DIR}{self.mid}{self.folder_name}"
 
-        if not self.link and (reply_to := self.message.reply_to_message):
+        if args["-ft"]:
+            from bot.helper.ff_utils import run_video_tool
+            user_dict = user_data.get(self.message.from_user.id, {})
+            mode = user_dict.get("FF_MEDIA_MODE")
+            if mode:
+                self.link = await run_video_tool(self, mode, self.message)
+                if not self.link:
+                    return
+            else:
+                await send_message(self.message, "No FF Media mode enabled.")
+                return
+        elif not self.link and (reply_to := self.message.reply_to_message):
             if reply_to.text:
                 self.link = reply_to.text.split("\n", 1)[0].strip()
         if is_telegram_link(self.link):

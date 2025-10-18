@@ -85,6 +85,56 @@ async def convert_video(video_path, output_path, preset="medium", crf=23):
     return True, None
 
 
+async def run_video_tool(listener, mode, message):
+    from bot.helper.telegram_helper.message_utils import send_message
+    from bot import DOWNLOAD_DIR
+
+    func_map = {
+        "video_encode": convert_video,
+        "video_convert": convert_video,
+        "video_trim": trim_video,
+        "video_watermark": add_watermark,
+        "video_merge": merge_videos,
+        "video_hardsub": hardsub_video,
+        "stream_extract": extract_stream,
+    }
+
+    func = func_map.get(mode)
+    if not func:
+        await send_message(message, f"Unknown FF Media mode: {mode}")
+        return None
+
+    reply_to = message.reply_to_message
+    if not reply_to or not reply_to.video:
+        await send_message(message, "Reply to a video to use this command.")
+        return None
+
+    vid_path = await reply_to.download()
+    out_path = f"{DOWNLOAD_DIR}{listener.mid}/{mode}.mp4"
+
+    args = message.text.split()
+    success, error = False, "Invalid arguments"
+
+    if mode == "video_trim":
+        if len(args) < 4:
+            await send_message(message, "Usage: /leech -ft <start_time> <end_time>")
+            return None
+        success, error = await func(vid_path, out_path, args[2], args[3])
+    elif mode == "video_watermark":
+        if len(args) < 3:
+            await send_message(message, "Usage: /leech -ft <watermark_text>")
+            return None
+        success, error = await func(vid_path, out_path, " ".join(args[2:]))
+    else:
+        success, error = await func(vid_path, out_path)
+
+    if success:
+        return out_path
+    else:
+        await send_message(message, f"Error in {mode}: {error}")
+        return None
+
+
 import os
 
 
